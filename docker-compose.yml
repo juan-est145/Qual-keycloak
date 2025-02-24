@@ -1,13 +1,13 @@
 name: practica-qualentum
 
 services:
-  posgres:
+  postgres:
     image: postgres:17.4-bookworm
     restart: always
     container_name: database
     env_file: .env
     volumes:
-      - database-volume:/var/lib/postgresql/data
+      - db-data:/var/lib/postgresql/data
     networks:
       - lan
     healthcheck:
@@ -18,22 +18,21 @@ services:
       timeout: 10s
   
   keycloak:
-    image: keycloak/keycloak:26.0
+    build:
+      context: ./Keycloak
     container_name: keycloak
     env_file: .env
     networks:
       - lan
     depends_on:
-    postgres:
-      condition: service_healthy
-      restart: true
-    expose:
+      postgres:
+        condition: service_healthy
+        restart: true
+    ports:
       - "8080:8080"
 
 volumes:
   db-data:
-    type: volume
-    name: database-volume
 
 networks:
   lan:
