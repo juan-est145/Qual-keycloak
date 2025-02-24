@@ -21,7 +21,13 @@ services:
     build:
       context: ./Keycloak
     container_name: keycloak
-    env_file: .env
+    environment:
+      - KC_BOOTSTRAP_ADMIN_USERNAME=admin
+      - KC_BOOTSTRAP_ADMIN_PASSWORD=admin
+      - KC_DB=postgres
+      - KC_DB_USERNAME=Qualentum
+      - KC_DB_PASSWORD=Mandarina
+      - KC_DB_URL=jdbc:postgresql://database:5432/Keycloak
     networks:
       - lan
     depends_on:
