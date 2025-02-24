@@ -30,6 +30,18 @@ services:
         restart: true
     ports:
       - "8080:8080"
+    
+  adminer:
+    image: adminer
+    restart: always
+    networks:
+      - lan
+    depends_on:
+      postgres:
+        condition: service_healthy
+        restart: true
+    ports:
+      - "3000:8080"
 
 volumes:
   db-data:
